@@ -2,15 +2,14 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="com.pushwoosh.plugins.pushwoosh" version="3.5.6">
    <name>Pushwoosh</name>
    <description>This plugin allows you to send and receive push notifications. Powered by Pushwoosh (www.pushwoosh.com).</description>
-   <!-- Updated Cordova engine to >3.5.0 because Steroids currently uses Cordova 3.5.0 -->
-   <engines>
+   <!-- <engines>
       <engine name="cordova" version=">=3.5.0" />
-   </engines>
+   </engines> -->
    <license>MIT</license>
    <!-- Using <js-module> includes the plugin's JS file and injects the relevant <script> into the DOM of all WebViews. 
    Thus, the plugin JavaScript is loaded automatically -->
    <js-module src="www/PushNotification.js" name="PushNotification">
-      <clobbers target="plugins.pushNotification" />
+      <clobbers target="plugins.pushwoosh" />
    </js-module>
    <!-- android -->
    <platform name="android">
@@ -19,9 +18,17 @@
       </config-file>
       <config-file target="AndroidManifest.xml" parent="/manifest">
          <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+         <!--library-->
+        <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
          <uses-permission android:name="android.permission.VIBRATE" />
          <!-- GCM connects to Google Services. -->
          <uses-permission android:name="android.permission.INTERNET" />
+
+         <!-- GCM requires a Google account. -->
+        <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+
          <!-- Keeps the processor from sleeping when a message is received. -->
          <uses-permission android:name="android.permission.WAKE_LOCK" />
          <!-- So the sounds from assets folder could work for notification sounds. -->
@@ -31,10 +38,10 @@
 
          NOTE: the permission *must* be called PACKAGE.permission.C2D_MESSAGE,
          where PACKAGE is the application's package name.
-         
+         -->
          <permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" android:protectionLevel="signature" />
          <uses-permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" />
-         -->
+         
          <!-- This app has permission to register and receive data message. -->
          <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
       </config-file>
